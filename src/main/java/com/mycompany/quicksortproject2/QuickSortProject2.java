@@ -59,10 +59,7 @@ public class QuickSortProject2 {
       return;
     }
 
-        //picks a random index within the sort range to set as our pivot then sets pivot equal to that indices value and moves that index to the end
-    int pivotInd = new Random().nextInt(highInd - lowInd) + lowInd;
-    int pivot = arr[pivotInd];
-    swap(arr, pivotInd, highInd);
+    int pivot = medianPivot(arr, lowInd, highInd);
 
     //partions our array section using the partition method and then gets a return of the left pointer variable at the end of teh partition method
     int lp = partition(arr, lowInd, highInd, pivot);
@@ -176,4 +173,79 @@ public class QuickSortProject2 {
         }
         return arr;
     }
+    
+    private static int median(int[] arr, int lowInd, int highInd){
+        
+        int midInd = (highInd - lowInd)/2 + lowInd;
+        
+        //find max
+        int max = arr[lowInd];
+        
+        if(arr[midInd] > max){
+            max = arr[midInd];
+        }
+        if(arr[highInd] > max){
+            max = arr[highInd];
+        }
+        
+        
+        //find min
+        int min = arr[lowInd];
+        
+        if(arr[midInd] < min){
+            min = arr[midInd];
+        }
+        if(arr[highInd] < min){
+            min = arr[midInd];
+        }
+        
+        //find pivot value
+        int pivot = arr[lowInd] + arr[midInd] + arr[highInd] - max - min;
+        
+        //find ind of median
+        if(pivot == arr[lowInd]){
+            return lowInd;
+        }
+        
+        if(pivot == arr[midInd]){
+            return midInd;
+        }
+        
+        if(pivot == arr[highInd]){
+            return highInd;
+        }
+            
+        return highInd;
+    }
+    
+    /**
+     * picks a random index within the sort range to set as our pivot then sets pivot equal to that indices value and moves that index to the end
+     * @param arr array to find pivot in
+     * @param lowInd low index we are working with
+     * @param highInd the high index of teh array section we are working on
+     * @return the pivot value
+     */
+    private static int randomPivot(int[] arr, int lowInd, int highInd){
+         
+        int pivotInd = new Random().nextInt(highInd - lowInd) + lowInd;
+        int pivot = arr[pivotInd];
+        swap(arr, pivotInd, highInd);
+        return pivot;
+    }
+    
+    /**
+     * picks median of teh first last and mid value in the array and uses that as the pivot
+     * @param arr array to chose pivot in
+     * @param lowInd low index we are working with
+     * @param highInd the high index of teh array section we are working on
+     * @return the value of the pivot
+     */
+    private static int medianPivot(int[] arr, int lowInd, int highInd){
+            
+        int pivotInd = median(arr, lowInd, highInd);
+        int pivot = arr[pivotInd];
+        swap(arr, pivotInd, highInd);
+        return pivot;
+    }
 }
+
