@@ -19,7 +19,7 @@ public class QuickSortProject2 {
     public static void main(String[] args) {
         
         //make an array of certain length with certain max number
-        int[] arr = makeArray(11, 999);
+        int[] arr = makeArray(11, 10);
         
         
         //print before staement with order of array items using printArray method
@@ -68,8 +68,19 @@ public class QuickSortProject2 {
     
     
     //recursively quicksorts our smaller and smaller sections until the sections become of length one and the return statement at the top runs
-    quicksort(arr, lowInd, lp - 1);
-    quicksort(arr, lp + 1, highInd);
+    if(lp - 1 - lowInd > 10){
+        quicksort(arr, lowInd, lp - 1);
+    }
+    else{
+        insertionSort(arr, lowInd, lp - 1);
+    }
+    
+    if(highInd - lp + 1 > 10){
+       quicksort(arr, lp + 1, highInd); 
+    }
+    else{
+       insertionSort(arr, lp + 1, highInd);
+    }
 
   }
     
@@ -247,5 +258,24 @@ public class QuickSortProject2 {
         swap(arr, pivotInd, highInd);
         return pivot;
     }
+    
+    /**
+     * Simple insertion sort algorithm there to use when sub arrays get too short
+     * @param arr array to be sorted
+     * @param lowInd low index of section of array being sorted
+     * @param highInd high index of part of array being sorted
+     */
+    private static void insertionSort(int[] arr, int lowInd, int highInd){
+
+	    for (int i = lowInd + 1; i <= highInd; i++) {
+		    for(int j = i ; j > lowInd ; j--){
+			    
+                            if(arr[j] < arr[j-1]){
+				    swap(arr, j, j-1);
+			    }
+		    }
+	    }
+    }
+    
 }
 
