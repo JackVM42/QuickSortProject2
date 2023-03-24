@@ -13,34 +13,44 @@ import java.util.Random;
  */
 public class QuickSortProject2 {
 
-    
-    
+    //class variables
+    private static int comparisons = 0;
+    private static int switches = 0;
     
     public static void main(String[] args) {
         
         //make an array of certain length with certain max number
-        int[] arr = makeArray(10, 10);
+        int[] arr = makeArray(10000, 10);
         
         
         //print before staement with order of array items using printArray method
         System.out.println("Before: ");
         printArray(arr);
         
+        long start = System.nanoTime();
         //use quicksort method on our array
         quicksort(arr);
+        long end = System.nanoTime();
         
         //print out after statement
         System.out.println("After Accending: ");
         printArray(arr);
+        System.out.println("Time (nanosecond): " + (end - start));
         
         //For reverse
         
         //use quicksort method on our array
+        start = System.nanoTime();
         revQuicksort(arr);
+        end = System.nanoTime();
         
         //print out after statement
         System.out.println("After Reverse: ");
         printArray(arr);
+        System.out.println("Time (nanosecond): " + (end - start));
+        
+        System.out.println("Comparisons: " + comparisons);
+        System.out.println("Switches: "+ switches);
     }
     
     
@@ -65,7 +75,8 @@ public class QuickSortProject2 {
         
         //makes sure that if your algorithm is tyrying to sort a single number it will just quit here since it is already in order
     if (lowInd >= highInd) {
-      return;
+        comparisons++;//CHECKS
+        return;
     }
 
     int pivot = medianPivot(arr, lowInd, highInd);
@@ -117,24 +128,30 @@ public class QuickSortProject2 {
 
     //stops running once the two pointers have reached eachother
     while (lp < rp) {
-
+        comparisons++;//CHECKS
+        
       // lp works right through the array until it finds a number greater than the pivot number, or reaches the right pointer.
       while (arr[lp] <= pivot && lp < rp) {
+        comparisons++;//CHECKS
         lp++;
       }
 
       // rp works left through the array until it finds a number less than the pivot number, or reaches the left pointer.
       while (arr[rp] >= pivot && lp < rp) {
+        comparisons++;//CHECKS
         rp--;
       }
         
       //once the left pointer has a number bigger than the pivot and the right pointer has a number smaller we can just switch them
       swap(arr, lp, rp);
+      switches++;//CHECKS
     }
     
     //makes sure that the last number is in order
     if(arr[lp] > arr[highInd]) {
-      swap(arr, lp, highInd);
+        comparisons++;//CHECKS
+        swap(arr, lp, highInd);
+        switches++;//CHECKS
     }
     else {
       lp = highInd;
@@ -210,9 +227,11 @@ public class QuickSortProject2 {
         int max = arr[lowInd];
         
         if(arr[midInd] > max){
+            comparisons++;//CHECKS
             max = arr[midInd];
         }
         if(arr[highInd] > max){
+            comparisons++;//CHECKS
             max = arr[highInd];
         }
         
@@ -221,9 +240,11 @@ public class QuickSortProject2 {
         int min = arr[lowInd];
         
         if(arr[midInd] < min){
+            comparisons++;//CHECKS
             min = arr[midInd];
         }
         if(arr[highInd] < min){
+            comparisons++;//CHECKS
             min = arr[midInd];
         }
         
@@ -232,14 +253,17 @@ public class QuickSortProject2 {
         
         //find ind of median
         if(pivot == arr[lowInd]){
+            comparisons++;//CHECKS
             return lowInd;
         }
         
         if(pivot == arr[midInd]){
+            comparisons++;//CHECKS
             return midInd;
         }
         
         if(pivot == arr[highInd]){
+            comparisons++;//CHECKS
             return highInd;
         }
             
@@ -262,7 +286,7 @@ public class QuickSortProject2 {
     }
     
     /**
-     * picks median of teh first last and mid value in the array and uses that as the pivot
+     * picks median of the first last and mid value in the array and uses that as the pivot
      * @param arr array to chose pivot in
      * @param lowInd low index we are working with
      * @param highInd the high index of the array section we are working on
@@ -273,6 +297,7 @@ public class QuickSortProject2 {
         int pivotInd = median(arr, lowInd, highInd);
         int pivot = arr[pivotInd];
         swap(arr, pivotInd, highInd);
+        switches++;//CHECKS
         return pivot;
     }
     
@@ -287,13 +312,16 @@ public class QuickSortProject2 {
         
         //if order is accending
         if(order == 1){
+            comparisons++;//CHECKS
             //iterates through each item in the array
 	    for (int i = lowInd + 1; i <= highInd; i++) {
                 //this one iterates back through the array one element at a time
 		    for(int j = i ; j > lowInd ; j--){
 			    
                             if(arr[j] < arr[j-1]){
-				    swap(arr, j, j-1);
+                                comparisons++;//CHECKS
+				swap(arr, j, j-1);
+                                switches++;//CHECKS
 			    }
 		    }
 	    }
@@ -301,13 +329,16 @@ public class QuickSortProject2 {
         
         //if order is decending
         if(order == 0){
+            comparisons++;//CHECKS
             //iterates through each item in the array
 	    for (int i = lowInd + 1; i <= highInd; i++) {
                 //this one iterates back through the array one element at a time
 		    for(int j = i ; j > lowInd ; j--){
 			    
                             if(arr[j] > arr[j-1]){
-				    swap(arr, j, j-1);
+                                comparisons++;//CHECKS
+				swap(arr, j, j-1);
+                                switches++;//CHECKS
 			    }
 		    }
 	    }
